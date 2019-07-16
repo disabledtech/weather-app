@@ -5,12 +5,13 @@ const forecast = (lat, long, callback) => {
 
     request({ url, json: true }, (error, { body }) => {
         if (error) {
-            callback('Unable to connect to weather service.', undefined);        
+            callback('Unable to connect to weather service.', undefined);
         } else if (body.error) {
             callback('Unable to find location', undefined);
         } else {
             const data = `${body.daily.data[0].summary} It is currently ${body.currently.temperature}C.`
-            const precip = body.currently.precipProbability === 0 ? '' : ` There is a ${body.currently.precipProbability}% of ${body.currently.precipType}`;
+            const precipChance = parseFloat(body.currently.precipProbability) * 100;
+            const precip = body.currently.precipProbability === 0 ? '' : ` There is a ${precipChance}% of ${body.currently.precipType}`;
             callback(undefined, data + precip);
         }
     });
