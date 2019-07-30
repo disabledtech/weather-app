@@ -13,8 +13,8 @@ const getWeather = (location) => {
             if (data.error) {
                 messageOne.textContent = data.error;
             } else {
-                messageOne.textContent = data.location;
-                messageTwo.textContent = data.weather;
+                messageOne.textContent = "Currently: " + data.currentTemp;
+                messageTwo.textContent = "One year ago: " + data.pastTemp;
             }
         });
     });

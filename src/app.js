@@ -22,23 +22,8 @@ app.use(express.static(publicDirectory));
 
 app.get('/', (req, res) => {
     res.render('index', {
-        title: 'Weather App',
+        title: 'Historical Temperature',
         name: 'Taylor Danielson'
-    });
-});
-
-app.get('/about', (req, res) => {
-    res.render('about', {
-        title: 'About Me',
-        name: 'Taylor Danielson'
-    });
-});
-
-app.get('/help', (req, res) => {
-    res.render('help', {
-        title: 'Help',
-        name: 'Taylor Danielson',
-        message: 'Help message here.'
     });
 });
 
@@ -49,6 +34,7 @@ app.get('/weather', (req, res) => {
             error: 'Please enter an address.'
         });
     }
+
     geocode(address, (error, locationData) => {
         if (error) {
             return res.send({
@@ -56,35 +42,23 @@ app.get('/weather', (req, res) => {
             });
         }
 
-        forecast(locationData.latitude, locationData.longitude, (error, data) => {
+        forecast(locationData.latitude, locationData.longitude, false, (error, currentTemp) => {
             if (error) {
                 return console.log(error);
             }
-            return res.send({
-                location: locationData.location,
-                weather: data
-            });
+
+            forecast(locationData.latitude, locationData.longitude, true, (error, pastTemp) => {
+                if (error) {
+                    return console.log(error);
+                }
+                return res.send({
+                    currentTemp,
+                    pastTemp
+                });
+            })
+
+
         });
-    });
-});
-
-app.get('/products', (req, res) => {
-    if (!req.query.search) {
-        return res.send({
-            error: 'Need search term.'
-        });
-    }
-
-    res.send({
-        products: []
-    });
-});
-
-app.get('/help/*', (req, res) => {
-    res.render('404', {
-        title: 'Help Article Not Found',
-        error: 'Sorry, that help article was not found.',
-        name: 'Taylor Danielson'
     });
 });
 
