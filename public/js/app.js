@@ -13,8 +13,10 @@ const getWeather = (location) => {
             if (data.error) {
                 messageOne.textContent = data.error;
             } else {
-                messageOne.textContent = "Currently: " + data.currentTemp;
-                messageTwo.textContent = "One year ago: " + data.pastTemp;
+                const generalMessage = `It is ${data.currentTemp > data.pastTemp ? "<span class='hotter'>hotter</span>" : "<span class='colder'>colder</span>"} than last year.`
+                const detailMessage = `Today it is <b>${data.currentTemp.toFixed(1)}</b>&deg;C and on this day last year it was <b>${data.pastTemp.toFixed(1)}</b>&deg;C.`
+                messageOne.innerHTML = generalMessage
+                messageTwo.innerHTML = detailMessage;
             }
         });
     });
