@@ -13,16 +13,15 @@ const getWeather = (location) => {
             if (data.error) {
                 messageOne.textContent = data.error;
             } else {
-                const generalMessage = `It is ${data.currentTemp > data.pastTemp ? "<span class='hotter'>hotter</span>" : "<span class='colder'>colder</span>"} than last year.`
-                const detailMessage = `Today it is <b>${data.currentTemp.toFixed(1)}</b>&deg;C and on this day last year it was <b>${data.pastTemp.toFixed(1)}</b>&deg;C.`
+                console.log(data)
+                const generalMessage = `It is ${data.currentTemp > data.pastTemp ? "<span class='hotter'>hotter</span>" : "<span class='colder'>colder</span>"} than last year in ${data.location}.`
+                const detailMessage = `Today it is <b>${data.currentTemp.toFixed(1)}</b>&deg;C. On this day last year it was <b>${data.pastTemp.toFixed(1)}</b>&deg;C.`
                 messageOne.innerHTML = generalMessage
                 messageTwo.innerHTML = detailMessage;
             }
         });
     });
 }
-
-
 
 weatherForm.addEventListener('submit', (e) => {
     e.preventDefault();
